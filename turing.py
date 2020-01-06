@@ -124,7 +124,6 @@ def turing_machine(tape, state_start, states_accept, table_relation):
                 else:
                     index -= 1
             else:
-                print(f"Len: {len(tape)}")
                 if index == len(tape)-1:
                     # Add 32 empty cells to the right side and move index to right (cell+1)
                     for _ in range(0,32):
