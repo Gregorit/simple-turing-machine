@@ -67,7 +67,20 @@ def word_to_tape(word_in):
     return tape
 
 
-def turing_machine(tape, state_start, states_accept, table_relation):
+def hash_remover(tape):
+    reverse_counter = 2
+
+    while reverse_counter != 0:
+        if tape[0] == "#":
+            tape.pop(0)
+        else:
+            reverse_counter -= 1
+            tape.reverse()
+
+    return tape
+
+
+def turing_machine(tape, state_start, states_accept, table_relation, word_in):
     """Definition solves Turing machine problem."""
     index = 0
     iteration = 0
@@ -110,8 +123,9 @@ def turing_machine(tape, state_start, states_accept, table_relation):
                 else:
                     print(f"**       {relation[2]} (index: {index} -> {index+1})")
                 print("*******************************************\n"
-                      "** Taśma:\n"
-                     f"**       {''.join(tape)}")
+                      "** Taśma po zmianach:\n"
+                     f"**       {''.join(tape)}\n"
+                     "*******************************************\n")
 
             if relation[2] == 'L':
                 if index == 0:
@@ -119,8 +133,9 @@ def turing_machine(tape, state_start, states_accept, table_relation):
                     for _ in range(0,32):
                         tape.insert(0,'#')
                     index = 31
-                    print("*******************************************\n"
-                          "** UWAGA: Taśma zostanie poszerzona w lewo!")
+                    if showLog:
+                        print("** UWAGA: Taśma zostanie poszerzona w lewo!\n"
+                              "*******************************************")
                 else:
                     index -= 1
             else:
@@ -129,11 +144,11 @@ def turing_machine(tape, state_start, states_accept, table_relation):
                     for _ in range(0,32):
                         tape.append('#')
                     index += 1
-                    print("*******************************************\n"
-                          "** UWAGA: Taśma zostanie poszerzona prawo!")
+                    if showLog:
+                        print("** UWAGA: Taśma zostanie poszerzona prawo!\n"
+                              "*******************************************")
                 else:
                     index += 1
-            print("*******************************************\n")
         except KeyError:
             print ("[ ERROR ] Błąd kodu:\n"
                   f"          Nie ma stanu obslugującego sytuację: STAN {state} LITERA {tape[index]}\n"
@@ -148,11 +163,18 @@ def turing_machine(tape, state_start, states_accept, table_relation):
          f"         Iteracja: {iteration}\n"
          f"         Pozycja głowicy: {index}")
 
-    print("----- [ Porównanie taśm ] -----\n"
+    print("\n\n----- [ Porównanie taśm ] -----\n"
           "Taśma startowa:\n"
          f"       {tape_init}\n\n"
           "Końcowy stan taśmy:\n"
          f"       {''.join(tape)}")
+    
+    word = hash_remover(tape)
+    print("\n\n----- [ Porównanie słów ] -----\n"
+          "Słowo startowe:\n"
+         f"       {word_in}\n\n"
+          "Słowo końcowe:\n"
+         f"       {''.join(word)}")
 
 
 # File loading from argument and global variables generation
@@ -162,4 +184,4 @@ ALPHABET_TAPE, ALPHABET_IN, WORD_IN, STATES, STATE_START, STATES_ACCEPT, TABLE_R
 TAPE = word_to_tape(WORD_IN)
 
 # Working with provided data from selected dataset
-turing_machine(TAPE, STATE_START, STATES_ACCEPT, TABLE_RELATION)
+turing_machine(TAPE, STATE_START, STATES_ACCEPT, TABLE_RELATION, WORD_IN)

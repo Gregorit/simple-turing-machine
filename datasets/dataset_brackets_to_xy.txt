@@ -1,0 +1,23 @@
+alfabet tasmowy:
+[]xy#
+alfabet wejsciowy:
+[]xy
+slowo wejsciowe:
+[[[]]]
+stany:
+0 1 2 3 4
+stan poczatkowy:
+0
+stany akceptujace:
+4
+relacja przejscia:
+0 [ 1 x P
+1 [ 1 [ P
+2 [ 2 [ L
+1 ] 2 y L
+2 x 0 x P
+0 y 3 y P
+1 y 1 y P
+2 y 2 y L
+3 y 3 y P
+3 # 4 # P
