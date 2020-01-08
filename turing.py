@@ -8,6 +8,11 @@ def arguments():
     parser.add_argument("file_in",
                         metavar="plik",
                         help="nazwa pliku wejsciowego")
+    parser.add_argument("-o","--output",
+                        dest="output_show",
+                        action="store_true",
+                        help="aktywacja outputu iteracji",
+                        default=False)
     args = parser.parse_args()
 
     return args
@@ -85,20 +90,21 @@ def turing_machine(tape, state_start, states_accept, table_relation, word_in):
     index = 0
     iteration = 0
     state = state_start
-    showLog = True
+    showLog = arguments().output_show
 
     # Variable for comparison purposes only
     tape_init = ''.join(tape)
 
-    print(f"Taśma startowa:\n"
-          f"       {tape_init}\n\n")
+    if showLog == True:
+        print(f"Taśma startowa:\n"
+              f"       {tape_init}\n\n")
     
     while state not in states_accept:
         try:
             iteration += 1
-            if iteration == 1000:
+            if iteration == 1000 and showLog == True:
                 print("[ INFO ] Zbyt duzo interacji. Nie pokazuje wiecej")
-                input("Aby kontynuować - Wciśnij Enter")
+                input("Aby kontynuować działanie -- Wciśnij [Enter]")
                 showLog = False
             
             start_letter = tape[index]
@@ -155,7 +161,7 @@ def turing_machine(tape, state_start, states_accept, table_relation, word_in):
                   f"          [{state} {tape[index]} ? ? ?]")
             break
         except KeyboardInterrupt:
-            print (f"[  OK  ] Zakonczenie na zamowienie")
+            print (f"[ INFO ] Zakonczenie na zamowienie")
             break
 
     print("\n\n[  OK  ] Program zakończył działanie.\n"
