@@ -17,6 +17,11 @@ https://www.python.org/downloads/release/python-381/
 $ python3 turing.py datasets/dataset_basic.txt
 ```
 
+By default output for each iteration is disabled - to enable it add following argument
+```sh
+$ python3 turing.py datasets/dataset_basic.txt --output
+```
+
 Instead of prints on the screen you can output them to textfile.
 ```sh
 $ python3 turing.py datasets/dataset_basic.txt > output.log
